@@ -1,0 +1,17 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+
+[*] --> IDLE
+
+IDLE --> TRACKING : Object gedetecteerd
+TRACKING --> PREDICTING : voldoende samples
+PREDICTING --> MOVING_TO_TARGET : haalbaar landpunt
+MOVING_TO_TARGET --> CATCHING : object dichtbij target
+CATCHING --> RECOVERY : Object opgevangen
+RECOVERY --> IDLE : Reset klaar
+
+TRACKING --> IDLE : object verloren
+MOVING_TO_TARGET --> IDLE : Timeout
+
+@enduml

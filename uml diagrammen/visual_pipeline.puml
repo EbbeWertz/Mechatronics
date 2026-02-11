@@ -1,0 +1,22 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+
+component "Camera Frame" as CF
+component "Verwijder lens distortion (Fisheye Correction)" as UC
+component "Preprocessing\n(Blur, Threshold)" as PP
+component "Motion Detection" as MD
+component "Object Tracking" as OT
+component "Traject Voorspellen" as TE
+component "Impact Voorspellen" as IP
+component "State Machine" as SM
+
+CF --> UC
+UC --> PP
+PP --> MD
+MD --> OT
+OT --> TE
+TE --> IP
+IP --> SM : Predicted (x,y,t)
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam componentStyle uml2
+
+node "Raspberry Pi (Pi OS Linux)" {
+    
+    package "User Space (Frontend/UI)" {
+        [Web Browser (Client)] as Client
+        component "Web Server" as Server {
+            [API / Handler (HTTP/WebSocket)] as API
+            [Dashboard UI] as UI
+        }
+    }
+
+    package "Robot Space (Regelsysteem)" {
+        component "Robot Logic Engine" as Logic {
+            [State Machine]
+            [Camera Vision Module]
+            [Differential Drive Module]
+        }
+        [Hardware Abstraction Layer (HAL)] as HAL
+    }
+
+    database "Middleware: Message Queue / Bus" as Bus {
+        note right of Bus: ROS Topics, MQTT, \nor WebSockets
+    }
+
+    node "Hardware Layer" {
+        [GPIO] as GPIO
+        [Sensors/Actuators (motors, camera)] as HW
+    }
+}
+
+' Relations
+Client <--> API : HTTP/WebSockets
+API <--> Bus : Pub/Sub
+Bus <--> Logic : Commands
+Logic --> HAL : Motor Data
+Logic <-- HAL : Camera Data
+HAL <--> GPIO : Direct/I2C/SPI/Serial/...
+GPIO <--> HW : Fysiek Signaal
+
+@enduml

@@ -1,0 +1,212 @@
+#VRML_SIM R2025a utf8
+
+PROTO TrashBot [
+  field SFVec3f    translation 0 0 0.001     # Start slightly above ground for wheels
+  field SFRotation rotation    0 1 0 0
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      
+            
+      # left camera
+      Pose {
+        translation 0.03 0.125 0.32
+        rotation 0 0 1 1.2908
+        children [
+          Shape {
+              appearance PBRAppearance { baseColor 0 0 0 roughness 0 }
+              geometry Box { size 0.04 0.04 0.005 }
+          }
+          Transform {
+            translation 0 0 0.005
+            children [
+              Shape {
+                appearance PBRAppearance { baseColor 0 0 0 roughness 0 }
+                geometry Cylinder { radius 0.005 height 0.01 }
+              }
+            ]
+          }
+          Camera {
+            name "camera_left"
+            rotation 0 1 0 -1.5708
+            fieldOfView 2.0944  # 120 deg
+            width 640
+            height 480
+          }
+        ]
+      }
+      # right camera
+      Pose {
+        translation -0.03 0.125 0.32
+        rotation 0 0 1 1.8508
+        children [
+          Shape {
+              appearance PBRAppearance { baseColor 0 0 0 roughness 0 }
+              geometry Box { size 0.04 0.04 0.005 }
+          }
+          Transform {
+            translation 0 0 0.005
+            children [
+              Shape {
+                appearance PBRAppearance { baseColor 0 0 0 roughness 0 }
+                geometry Cylinder { radius 0.005 height 0.01 }
+              }
+            ]
+          }
+          Camera {
+            name "camera_right"
+            rotation 0 1 0 -1.5708
+            fieldOfView 2.0944  # 120 deg
+            width 640
+            height 480
+          }
+        ]
+      }
+      
+      # # --- CAMERA 2 (Back Rim) ---
+      # Camera {
+      #   translation -0.15 0.15 0
+      #   rotation 0 0 1 1.5708
+      #   name "camera_right"
+      #   fieldOfView 2.0944  # 120 deg
+      #   width 640
+      #   height 480
+      # }
+      
+      HingeJoint {
+        jointParameters HingeJointParameters { axis 1 0 0 anchor -0.10 0.05 0.04 }
+        device [ RotationalMotor { name "left_wheel_motor" maxVelocity 100 } ]
+        endPoint Solid {
+          name "left_wheel_link"
+          translation -0.10 0.05 0.04
+          rotation 0 1 0 1.5708
+          children [ 
+            Shape {
+              appearance PBRAppearance { baseColor 0.1 0.1 0.1 }
+              geometry Cylinder { height 0.02 radius 0.04 }
+            }
+          ]
+          boundingObject Cylinder { height 0.02 radius 0.04 }
+          physics Physics {density -1 mass 0.050 }
+          contactMaterial "wheel_rubber"
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters { axis 1 0 0 anchor 0.10 0.05 0.04 }
+        device [ RotationalMotor { name "right_wheel_motor" maxVelocity 100 } ] # 500rpm
+        endPoint Solid {
+          name "right_wheel_link"
+          translation 0.10 0.05 0.04
+          rotation 0 1 0 1.5708
+          children [ 
+            Shape {
+              appearance PBRAppearance { baseColor 0.1 0.1 0.1 }
+              geometry Cylinder { height 0.02 radius 0.04 }
+            }
+          ]
+          boundingObject Cylinder { height 0.02 radius 0.04 }
+          physics Physics {density -1 mass 0.050 }
+          contactMaterial "wheel_rubber"
+        }
+      }
+      Solid {
+        name "motor_left_link"
+        translation -0.05 0.05 0.04
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+              appearance PBRAppearance { baseColor 1 1 1 roughness 0 }
+              geometry Cylinder { height 0.08 radius 0.02 }
+          }
+        ]
+        boundingObject Cylinder { height 0.08 radius 0.02 }
+        physics Physics {density -1 mass 0.150 }
+      }
+      Solid {
+        name "motor_right_link"
+        translation 0.05 0.05 0.04
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+              appearance PBRAppearance { baseColor 1 1 1 roughness 0 }
+              geometry Cylinder { height 0.08 radius 0.02 }
+          }
+        ]
+        boundingObject Cylinder { height 0.08 radius 0.02 }
+        physics Physics {density -1 mass 0.150 }
+      }
+      # --- CASTER SPHERE (Opposite side) ---
+      Solid {
+        name "caster_link"
+        translation 0 -0.10 0.015
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.8 0.8 0.8 }
+            geometry Sphere { radius 0.015 }
+          }
+        ]
+        boundingObject Sphere { radius 0.015 }
+        physics Physics {density 7850 }
+        contactMaterial "caster_material"
+      }
+      # boven rand bak 0.170g
+      Solid {
+        name "rim_link"
+        translation 0 0 0.31 # 0.015(caster) + 0.3 (bak) - 0.005 (rand/2)
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.5 0.5 0.8 roughness 0.5 }
+            geometry Cylinder { height 0.01 radius 0.15 }
+          }
+        ]
+        boundingObject Cylinder { height 0.01 radius 0.15 }
+        physics Physics { density -1 mass 0.170}
+      }
+      Solid {
+        name "battery_link"
+        translation 0 -0.08 0.05
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.5 1 0.8 roughness 0.7 }
+            geometry Box { size 0.15 0.04 0.03}
+          }
+        ]
+        boundingObject Box { size 0.15 0.04 0.03}
+        physics Physics { density -1 mass 0.400}
+      }
+      Solid {
+        name "pi_link"
+        translation 0 -0.01 0.045
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.5 1 0.8 roughness 0.7 }
+            geometry Box { size 0.086 0.056 0.02}
+          }
+        ]
+        boundingObject Box { size 0.086 0.056 0.02}
+        physics Physics { density -1 mass 0.050}
+      }
+      # bodem bak 0.042
+      Pose {
+        translation 0 0 0.03
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.5 0.5 0.8 roughness 0.5 }
+            geometry Cylinder { height 0.01 radius 0.15 }
+          }
+        ]
+      }
+    ]
+    boundingObject Pose {
+      translation 0 0 0.03
+      children [
+        Cylinder { height 0.01 radius 0.15 }
+      ]
+    }
+    physics Physics { density -1 mass 0.042}
+    controller "trashbot_controller"
+  }
+}

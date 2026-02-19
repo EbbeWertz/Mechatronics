@@ -1,0 +1,63 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/TrashBot.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/humans/pedestrian/protos/Pedestrian.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/plants/protos/PottedTree.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      material1 "wheel_rubber"
+      coulombFriction [
+        4
+      ]
+    }
+    ContactProperties {
+      material1 "caster_material"
+      coulombFriction [
+        0.1
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.1868121539600171 -0.8524432013791019 -0.48830503535737424 5.439466582234864
+  position -11.454398353617076 -5.947089150068759 12.482154005565011
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 10
+  floorTileSize 1 1
+  wallHeight 2
+}
+Pedestrian {
+  translation -0.175993 0.403174 1.27
+  rotation 0 0 1 -1.8325953071795862
+}
+Desk {
+  translation 0.58 0 0
+}
+PottedTree {
+  translation -0.91 -1.52 0
+}
+TrashBot {
+  hidden position_0_0 10585.573286530062
+  hidden position_0_1 8349.933139985353
+  hidden linearVelocity_0 0.6514874718291375 -1.3825750004486974 -0.010817015297671602
+  hidden angularVelocity_0 -0.2721310598720479 0.3574529925578278 1.5313954137848897
+  hidden rotation_3 0.5817546024626736 -0.5684370490304289 0.5817567393705674 4.175365618582282
+  hidden linearVelocity_3 0.5832758582703449 -1.582474758281448 0.02132879757919414
+  hidden angularVelocity_3 39.16736215403392 14.454311591115587 2.1741184536211904
+  hidden rotation_4 0.20413341772040364 -0.957422993984485 0.20413416754569041 4.6688890472236135
+  hidden linearVelocity_4 0.4675124513422158 -1.293896136628979 -0.06424778068776824
+  hidden angularVelocity_4 29.32885156756153 10.866576437199013 2.1106336787127153
+  translation -0.7520484664021948 -1.0610147553763125 -0.001376740322924827
+  rotation -0.014475472739763717 -0.00017687840137346918 0.999895209210941 0.3920062689066261
+}
